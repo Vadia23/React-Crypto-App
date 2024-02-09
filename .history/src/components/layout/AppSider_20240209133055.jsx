@@ -62,7 +62,7 @@ export default function AppSider() {
         <Card key={asset.id} style={{ marginBottom: "10px" }}>
           <Avatar size={64} src={asset.icon} style={{ marginBottom: "5px" }} />
           <Statistic
-            title={capitalize(asset.id)}
+            title={() => capitalize(asset.id)}
             value={asset.growPercent}
             precision={2}
             valueStyle={{ color: asset.grow ? "#3f8600" : "#cf1322" }}
@@ -76,9 +76,7 @@ export default function AppSider() {
                 title: "Total Profit",
                 value: (
                   <Typography.Text type={asset.grow ? "success" : "danger"}>
-                    {asset.grow
-                      ? "+" + asset.totalProfit + " $"
-                      : asset.totalProfit + " $"}
+                    {asset.totalProfit + " $"}
                   </Typography.Text>
                 ),
               },

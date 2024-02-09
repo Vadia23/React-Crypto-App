@@ -1,8 +1,8 @@
-import { Avatar, Card, Layout, List, Spin, Statistic, Typography } from "antd";
+import { Card, Layout, List, Spin, Statistic, Typography } from "antd";
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { fakeFetchCrypto, fetchAssets } from "../../api";
-import { capitalize, percentDifference } from "../../utils";
+import { percentDifference } from "../../utils";
 
 const siderStyle = {
   padding: "1rem",
@@ -36,11 +36,7 @@ export default function AppSider() {
             grow: asset.price < coin.price, // boolean for color of statistic
             growPercent: percentDifference(asset.price, coin.price),
             totalAmount: asset.amount * coin.price,
-            totalProfit: +(
-              asset.amount * coin.price -
-              asset.amount * asset.price
-            ).toFixed(2),
-            icon: coin.icon,
+            totalProfit: asset.amount * coin.price - asset.amount * asset.price,
             ...asset,
           };
         })
@@ -58,38 +54,24 @@ export default function AppSider() {
 
   return (
     <Layout.Sider width="25%" style={siderStyle}>
-      {assets.map((asset) => (
-        <Card key={asset.id} style={{ marginBottom: "10px" }}>
-          <Avatar size={64} src={asset.icon} style={{ marginBottom: "5px" }} />
+      {assets.map((item) => (
+        <Card key={item.id} style={{ marginBottom: "10px" }}>
           <Statistic
-            title={capitalize(asset.id)}
-            value={asset.growPercent}
+            title={item.id}
+            value={item.growPercent}
             precision={2}
-            valueStyle={{ color: asset.grow ? "#3f8600" : "#cf1322" }}
-            prefix={asset.grow ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+            valueStyle={
+              item.totalProfit > 0 ? { color: "#3f8600" } : { color: "#cf1322" }
+            }
+            prefix={<ArrowUpOutlined />}
             suffix="%"
           />
           <List
             size="small"
-            dataSource={[
-              {
-                title: "Total Profit",
-                value: (
-                  <Typography.Text type={asset.grow ? "success" : "danger"}>
-                    {asset.grow
-                      ? "+" + asset.totalProfit + " $"
-                      : asset.totalProfit + " $"}
-                  </Typography.Text>
-                ),
-              },
-              { title: "Asset Amount", value: asset.amount },
-              { title: "Purchase price", value: asset.price + " $" },
-            ]}
+            dataSource={data}
             renderItem={(item) => (
               <List.Item>
-                <span>{item.title}</span>
-                {}
-                <span>{item.value}</span>
+                <Typography.Text mark>[ITEM]</Typography.Text> {item}
               </List.Item>
             )}
           />
