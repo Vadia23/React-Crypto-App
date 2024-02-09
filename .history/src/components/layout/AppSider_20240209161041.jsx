@@ -1,8 +1,13 @@
-import { Avatar, Card, Layout, List, Statistic, Typography } from "antd";
+import { Avatar, Card, Layout, List, Spin, Statistic, Typography } from "antd";
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
-import { useContext } from "react";
-import { capitalize } from "../../utils";
+import { useContext, useEffect, useState } from "react";
+import { fakeFetchCrypto, fetchAssets } from "../../api";
+import { capitalize, percentDifference } from "../../utils";
 import CryptoContext from "../../context/cryptoContext";
+
+const siderStyle = {
+  padding: "1rem",
+};
 
 export default function AppSider() {
   const { assets } = useContext(CryptoContext);
