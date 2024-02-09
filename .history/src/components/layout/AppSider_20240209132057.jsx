@@ -2,7 +2,7 @@ import { Avatar, Card, Layout, List, Spin, Statistic, Typography } from "antd";
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { fakeFetchCrypto, fetchAssets } from "../../api";
-import { capitalize, percentDifference } from "../../utils";
+import { percentDifference } from "../../utils";
 
 const siderStyle = {
   padding: "1rem",
@@ -62,7 +62,7 @@ export default function AppSider() {
         <Card key={asset.id} style={{ marginBottom: "10px" }}>
           <Avatar size={64} src={asset.icon} style={{ marginBottom: "5px" }} />
           <Statistic
-            title={capitalize(asset.id)}
+            title={asset.id}
             value={asset.growPercent}
             precision={2}
             valueStyle={{ color: asset.grow ? "#3f8600" : "#cf1322" }}
@@ -75,11 +75,9 @@ export default function AppSider() {
               {
                 title: "Total Profit",
                 value: (
-                  <Typography.Text type={asset.grow ? "success" : "danger"}>
-                    {asset.grow
-                      ? "+" + asset.totalProfit + " $"
-                      : asset.totalProfit + " $"}
-                  </Typography.Text>
+                  <Text type={asset.grow ? "success" : "danger"}>
+                    {asset.totalProfit + " $"}
+                  </Text>
                 ),
               },
               { title: "Asset Amount", value: asset.amount },

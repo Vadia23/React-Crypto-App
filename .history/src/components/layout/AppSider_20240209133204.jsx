@@ -76,9 +76,7 @@ export default function AppSider() {
                 title: "Total Profit",
                 value: (
                   <Typography.Text type={asset.grow ? "success" : "danger"}>
-                    {asset.grow
-                      ? "+" + asset.totalProfit + " $"
-                      : asset.totalProfit + " $"}
+                    {asset.totalProfit + " $"}
                   </Typography.Text>
                 ),
               },
