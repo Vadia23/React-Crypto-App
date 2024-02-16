@@ -2,12 +2,12 @@ import { Button, Layout, Modal, Select, Space, Drawer } from "antd";
 import { useCrypto } from "../../context/cryptoContext";
 import { useEffect, useState } from "react";
 import CoinInfoModal from "../CoinInfoModal";
-import AddAssetForm from "../AddAssetForm";
 
 const headerStyle = {
   textAlign: "center",
   color: "#fff",
   height: 60,
+  // backgroundColor: "#4096ff",
   width: "100%",
   padding: "1rem",
   display: "flex",
@@ -40,6 +40,18 @@ export default function AppHeader() {
     return () => document.removeEventListener("keypress", keypress);
   }, []);
 
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onChange = (e) => {
+    setPlacement(e.target.value);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Layout.Header style={headerStyle}>
       <Select
@@ -66,9 +78,7 @@ export default function AppHeader() {
           </Space>
         )}
       />
-      <Button type="primary" onClick={() => setDrawer(true)}>
-        Add Asset
-      </Button>
+      <Button type="primary">Add Asset</Button>
 
       <Modal
         open={modal}
@@ -81,12 +91,23 @@ export default function AppHeader() {
       </Modal>
 
       <Drawer
-        width={"40%"}
-        title="Add Asset"
-        onClose={() => setDrawer(false)}
+        title="Drawer with extra actions"
+        // placement={placement}
+        width={500}
+        onClose={onClose}
         open={drawer}
+        extra={
+          <Space>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button type="primary" onClick={onClose}>
+              OK
+            </Button>
+          </Space>
+        }
       >
-        <AddAssetForm />
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
       </Drawer>
     </Layout.Header>
   );

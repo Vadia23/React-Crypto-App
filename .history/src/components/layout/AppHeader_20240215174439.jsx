@@ -2,12 +2,12 @@ import { Button, Layout, Modal, Select, Space, Drawer } from "antd";
 import { useCrypto } from "../../context/cryptoContext";
 import { useEffect, useState } from "react";
 import CoinInfoModal from "../CoinInfoModal";
-import AddAssetForm from "../AddAssetForm";
 
 const headerStyle = {
   textAlign: "center",
   color: "#fff",
   height: 60,
+  // backgroundColor: "#4096ff",
   width: "100%",
   padding: "1rem",
   display: "flex",
@@ -39,6 +39,10 @@ export default function AppHeader() {
     document.addEventListener("keypress", keypress);
     return () => document.removeEventListener("keypress", keypress);
   }, []);
+
+  const onClose = () => {
+    setDrawer(false);
+  };
 
   return (
     <Layout.Header style={headerStyle}>
@@ -80,13 +84,10 @@ export default function AppHeader() {
         <CoinInfoModal coin={coin} />
       </Modal>
 
-      <Drawer
-        width={"40%"}
-        title="Add Asset"
-        onClose={() => setDrawer(false)}
-        open={drawer}
-      >
-        <AddAssetForm />
+      <Drawer title="Add Asset" onClose={() => setDrawer(false)} open={drawer}>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
       </Drawer>
     </Layout.Header>
   );
