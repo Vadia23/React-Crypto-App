@@ -2,7 +2,6 @@ import { Button, Layout, Modal, Select, Space, Drawer } from "antd";
 import { useCrypto } from "../../context/cryptoContext";
 import { useEffect, useState } from "react";
 import CoinInfoModal from "../CoinInfoModal";
-import AddAssetForm from "../AddAssetForm";
 
 const headerStyle = {
   textAlign: "center",
@@ -81,12 +80,14 @@ export default function AppHeader() {
       </Modal>
 
       <Drawer
-        width={"40%"}
+        width={"45%"}
         title="Add Asset"
         onClose={() => setDrawer(false)}
         open={drawer}
       >
-        <AddAssetForm />
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
       </Drawer>
     </Layout.Header>
   );
