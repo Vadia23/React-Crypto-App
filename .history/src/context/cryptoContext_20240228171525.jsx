@@ -12,10 +12,10 @@ export function CryptoContextProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [crypto, setCrypto] = useState([]);
   const [assets, setAssets] = useState([]);
-
   function mapAssets(assets, result) {
     return assets.map((asset) => {
       const coin = result.find((c) => c.id === asset.id);
+
       return {
         grow: asset.price < coin.price, // boolean for color of statistic
         growPercent: percentDifference(asset.price, coin.price),
