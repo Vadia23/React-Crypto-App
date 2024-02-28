@@ -6,11 +6,12 @@ import CryptoContext from "../../context/cryptoContext";
 
 export default function AppSider() {
   const { assets } = useContext(CryptoContext);
+  console.log("asset", assets);
 
   return (
     <Layout.Sider width="25%" style={{ padding: "1rem" }}>
-      {assets.map((asset, i) => (
-        <Card key={i} style={{ marginBottom: "10px" }}>
+      {assets.map((asset) => (
+        <Card key={asset.id} style={{ marginBottom: "10px" }}>
           <Avatar size={64} src={asset.icon} style={{ marginBottom: "5px" }} />
           <Statistic
             title={capitalize(asset.id)}

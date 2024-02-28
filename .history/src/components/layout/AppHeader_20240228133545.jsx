@@ -73,7 +73,7 @@ export default function AppHeader() {
       <Modal
         open={modal}
         onCancel={() => {
-          setModal(false), setCoin(null);
+          setModal(false), setCoin(null), console.log(coin);
         }}
         footer={null}
       >

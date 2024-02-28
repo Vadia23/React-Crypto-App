@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import CryptoContext from "../context/cryptoContext";
 import {
   Button,
@@ -10,34 +10,14 @@ import {
   Image,
   Input,
   InputNumber,
-  Result,
   Select,
   Space,
   Typography,
 } from "antd";
-import CoinInfo from "./CoinInfo";
 
-export default function AddAssetForm({ onClose }) {
-  const [form] = Form.useForm();
-  const { crypto, addAsset } = useContext(CryptoContext);
+export default function AddAssetForm() {
+  const { crypto } = useContext(CryptoContext);
   const [coin, setCoin] = useState(null);
-  const [submitted, setSubmitted] = useState(false);
-  const assetRef = useRef();
-
-  if (submitted) {
-    return (
-      <Result
-        status="success"
-        title="New Asset Added"
-        subTitle={`Added ${assetRef.current.amount} of ${coin.name} by price ${assetRef.current.price}!`}
-        extra={[
-          <Button type="primary" key="console" onClick={onClose}>
-            Close
-          </Button>,
-        ]}
-      />
-    );
-  }
 
   if (!coin) {
     return (
@@ -64,52 +44,26 @@ export default function AddAssetForm({ onClose }) {
     );
   }
 
-  const validateMessages = {
-    required: "${label} is required!",
-    types: {
-      number: "${label} is not valid number",
-    },
-    number: {
-      range: "${label} must be between ${min} and ${max}",
-    },
-  };
-
   function onFinish(values) {
-    setSubmitted(true);
-    const newAsset = {
-      id: coin.id,
-      amount: values.amount,
-      price: values.price,
-      date: values.date?.$d ?? new Date(),
-    };
-    assetRef.current = newAsset;
-    addAsset(newAsset);
-  }
-  function handleAmountChange(value) {
-    const price = form.getFieldValue("price");
-    form.setFieldsValue({
-      total: +(value * price).toFixed(2),
-    });
-  }
-  function handlePriceChange(value) {
-    const amount = form.getFieldValue("amount");
-    form.setFieldsValue({
-      total: +(amount * value).toFixed(2),
-    });
+    console.log(values);
   }
 
   return (
     <Form
-      form={form}
       name="basic"
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 10 }}
       style={{ maxWidth: 600 }}
-      initialValues={{ price: +coin.price.toFixed(2) }}
+      initialValues={{ remember: true }}
       onFinish={onFinish}
-      validateMessages={validateMessages}
     >
-      <CoinInfo coin={coin} />
+      <Flex align="center">
+        <Image src={coin.icon} alt={coin.name} style={{ width: 40 }} />
+        <Typography.Title level={2} style={{ margin: "auto 0 auto 10px" }}>
+          {coin.name}
+        </Typography.Title>
+      </Flex>
+      <Divider />
 
       <Form.Item
         label="Amount"
@@ -119,15 +73,11 @@ export default function AddAssetForm({ onClose }) {
             required: true,
             type: "number",
             min: 0,
-            // message: "Please input your username!",
+            message: "Please input your username!",
           },
         ]}
       >
-        <InputNumber
-          placeholder="Enter coin amount"
-          onChange={handleAmountChange}
-          style={{ width: "100%" }}
-        />
+        <InputNumber style={{ width: "100%" }} />
       </Form.Item>
 
       <Form.Item
@@ -135,14 +85,14 @@ export default function AddAssetForm({ onClose }) {
         name="price"
         rules={[
           {
-            // required: true,
+            required: true,
             type: "number",
             min: 0,
             message: "Please input price!",
           },
         ]}
       >
-        <InputNumber onChange={handlePriceChange} style={{ width: "100%" }} />
+        <InputNumber disabled style={{ width: "100%" }} />
       </Form.Item>
       <Form.Item
         label="Date & Time"
@@ -150,8 +100,8 @@ export default function AddAssetForm({ onClose }) {
         rules={[
           {
             required: true,
-            // type: "number",
-            // min: 0,
+            type: "number",
+            min: 0,
             message: "Please input price!",
           },
         ]}
@@ -163,7 +113,7 @@ export default function AddAssetForm({ onClose }) {
         name="total"
         rules={[
           {
-            // required: true,
+            required: true,
             type: "number",
             min: 0,
             message: "Please input price!",
@@ -171,6 +121,14 @@ export default function AddAssetForm({ onClose }) {
         ]}
       >
         <InputNumber disabled style={{ width: "100%" }} />
+      </Form.Item>
+
+      <Form.Item
+        name="remember"
+        valuePropName="checked"
+        wrapperCol={{ offset: 8, span: 16 }}
+      >
+        <Checkbox>Remember me</Checkbox>
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

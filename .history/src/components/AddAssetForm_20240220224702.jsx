@@ -84,6 +84,7 @@ export default function AddAssetForm({ onClose }) {
     };
     assetRef.current = newAsset;
     addAsset(newAsset);
+    console.log(values);
   }
   function handleAmountChange(value) {
     const price = form.getFieldValue("price");

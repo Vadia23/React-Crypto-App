@@ -77,13 +77,14 @@ export default function AddAssetForm({ onClose }) {
   function onFinish(values) {
     setSubmitted(true);
     const newAsset = {
-      id: coin.id,
+      id: values.id,
       amount: values.amount,
       price: values.price,
       date: values.date?.$d ?? new Date(),
     };
     assetRef.current = newAsset;
     addAsset(newAsset);
+    console.log(values);
   }
   function handleAmountChange(value) {
     const price = form.getFieldValue("price");

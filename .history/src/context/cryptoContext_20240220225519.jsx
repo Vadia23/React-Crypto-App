@@ -12,39 +12,39 @@ export function CryptoContextProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [crypto, setCrypto] = useState([]);
   const [assets, setAssets] = useState([]);
-  function mapAssets(assets, result) {
-    return assets.map((asset) => {
-      const coin = result.find((c) => c.id === asset.id);
-
-      return {
-        grow: asset.price < coin.price, // boolean for color of statistic
-        growPercent: percentDifference(asset.price, coin.price),
-        totalAmount: asset.amount * coin.price,
-        totalProfit: +(
-          asset.amount * coin.price -
-          asset.amount * asset.price
-        ).toFixed(2),
-        icon: coin.icon,
-        ...asset,
-      };
-    });
-  }
 
   useEffect(() => {
     async function preload() {
       setIsLoading(true);
       const { result } = await fakeFetchCrypto();
       const assets = await fetchAssets();
+      function mapAssets(assets, result) {
+        return assets.map((asset) => {
+          const coin = result.find((c) => c.id === asset.id);
+
+          return {
+            grow: asset.price < coin.price, // boolean for color of statistic
+            growPercent: percentDifference(asset.price, coin.price),
+            totalAmount: asset.amount * coin.price,
+            totalProfit: +(
+              asset.amount * coin.price -
+              asset.amount * asset.price
+            ).toFixed(2),
+            icon: coin.icon,
+            ...asset,
+          };
+        });
+      }
 
       setCrypto(result);
-      setAssets(mapAssets(assets, result));
+      setAssets();
       setIsLoading(false);
     }
     preload();
   }, []);
 
   function addAsset(newAsset) {
-    return setAssets((prev) => mapAssets([...prev, newAsset], crypto));
+    return setAssets((prev) => [...prev, newAsset]);
   }
 
   return (
