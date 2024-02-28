@@ -19,7 +19,7 @@ import CoinInfo from "./CoinInfo";
 
 export default function AddAssetForm({ onClose }) {
   const [form] = Form.useForm();
-  const { crypto, addAsset } = useContext(CryptoContext);
+  const { crypto } = useContext(CryptoContext);
   const [coin, setCoin] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const assetRef = useRef();
@@ -77,13 +77,13 @@ export default function AddAssetForm({ onClose }) {
   function onFinish(values) {
     setSubmitted(true);
     const newAsset = {
-      id: coin.id,
+      id: values.id,
       amount: values.amount,
       price: values.price,
       date: values.date?.$d ?? new Date(),
     };
     assetRef.current = newAsset;
-    addAsset(newAsset);
+    console.log(values);
   }
   function handleAmountChange(value) {
     const price = form.getFieldValue("price");

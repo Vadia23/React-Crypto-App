@@ -4,7 +4,7 @@ import CoinInfo from "./CoinInfo";
 export default function CoinInfoModal({ coin }) {
   return (
     <>
-      <CoinInfo coin={coin} withSymbol />
+      <CoinInfo coin={coin} />
       <Typography.Paragraph>
         <Typography.Text strong>1 hour: </Typography.Text>
         <Tag color={coin.priceChange1h > 0 ? "green" : "red"}>

@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import CryptoContext from "../context/cryptoContext";
 import {
   Button,
@@ -15,24 +15,22 @@ import {
   Space,
   Typography,
 } from "antd";
-import CoinInfo from "./CoinInfo";
 
 export default function AddAssetForm({ onClose }) {
   const [form] = Form.useForm();
-  const { crypto, addAsset } = useContext(CryptoContext);
+  const { crypto } = useContext(CryptoContext);
   const [coin, setCoin] = useState(null);
   const [submitted, setSubmitted] = useState(false);
-  const assetRef = useRef();
 
   if (submitted) {
     return (
       <Result
         status="success"
         title="New Asset Added"
-        subTitle={`Added ${assetRef.current.amount} of ${coin.name} by price ${assetRef.current.price}!`}
+        subTitle={`Added ${42} of ${coin.name} by price ${24}!`}
         extra={[
           <Button type="primary" key="console" onClick={onClose}>
-            Close
+            Go Console
           </Button>,
         ]}
       />
@@ -76,14 +74,7 @@ export default function AddAssetForm({ onClose }) {
 
   function onFinish(values) {
     setSubmitted(true);
-    const newAsset = {
-      id: coin.id,
-      amount: values.amount,
-      price: values.price,
-      date: values.date?.$d ?? new Date(),
-    };
-    assetRef.current = newAsset;
-    addAsset(newAsset);
+    console.log(values);
   }
   function handleAmountChange(value) {
     const price = form.getFieldValue("price");
@@ -109,7 +100,13 @@ export default function AddAssetForm({ onClose }) {
       onFinish={onFinish}
       validateMessages={validateMessages}
     >
-      <CoinInfo coin={coin} />
+      <Flex align="center">
+        <Image src={coin.icon} alt={coin.name} style={{ width: 40 }} />
+        <Typography.Title level={2} style={{ margin: "auto 0 auto 10px" }}>
+          {coin.name}
+        </Typography.Title>
+      </Flex>
+      <Divider />
 
       <Form.Item
         label="Amount"
@@ -171,6 +168,14 @@ export default function AddAssetForm({ onClose }) {
         ]}
       >
         <InputNumber disabled style={{ width: "100%" }} />
+      </Form.Item>
+
+      <Form.Item
+        name="remember"
+        valuePropName="checked"
+        wrapperCol={{ offset: 8, span: 16 }}
+      >
+        <Checkbox>Remember me</Checkbox>
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

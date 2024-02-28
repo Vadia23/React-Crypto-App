@@ -6,6 +6,7 @@ import CryptoContext from "../../context/cryptoContext";
 
 export default function AppSider() {
   const { assets } = useContext(CryptoContext);
+  console.log("asset", assets);
 
   return (
     <Layout.Sider width="25%" style={{ padding: "1rem" }}>
